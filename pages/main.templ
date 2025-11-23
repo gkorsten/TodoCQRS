@@ -1,0 +1,19 @@
+package pages
+
+templ MainPage () {
+
+<html>
+<head>
+    <title>CQRS Test App - TODO</title>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.6/bundles/datastar.js"></script>
+</head>
+<body>
+
+<app data-init="@get('/sse')">
+    <main id="main">
+    </main>
+</app>
+
+</body>
+</html>
+}

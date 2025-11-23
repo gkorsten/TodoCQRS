@@ -1,0 +1,32 @@
+package pages
+
+import "fmt"
+
+type TodoItem struct{
+	Id int
+	Done bool
+	Task string
+}
+
+templ ShowTodo(items []TodoItem) {
+    <main id="main" style="padding:20px">
+     <h3> CQRS TODO Test App</h3>
+     <div>
+     
+     <form id="Todo">
+    <ul style="list-style-type: none;padding-left:5px;">
+     for _,item := range items {
+        <li>
+        <input name={ fmt.Sprintf("CB_%v",item.Id) } data-init={ fmt.Sprintf("el.checked=%v",item.Done) } type="checkbox" data-on:click={ fmt.Sprintf("@get('/toggleCheckbox?id=%v')",item.Id) }    > 
+        { item.Task} </input></li>
+     }
+    </ul>
+     <div>  
+        <input name="newTodo"  data-bind="todoval" data-init="el.value=''" /> <br /> <br />
+         <button data-on:click="$todoval='';@post('/addTodo',{contentType: 'form'})">Add</button>
+         <button data-on:click="@post('/removeTodoCompleted',{contentType: 'form'})">Remove Completed</button>
+     </div>
+     </form>
+     </div>
+    </main>
+}
