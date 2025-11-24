@@ -13,7 +13,7 @@ import (
 
 type Event string 
 
-type EventHanlder func(e Event)string
+type EventHanlder func(e Event)[]byte
 
 type registerHandler struct {
 	Id string

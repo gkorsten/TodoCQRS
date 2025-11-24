@@ -15,9 +15,9 @@ const (
 	TestEvent2 Event = "OrderPlacedEvent"
 )
 
-func HandlerT(ev Event) string {
+func HandlerT(ev Event) []byte {
 	time.Sleep(10 * time.Millisecond)
-	 return ""
+	 return []byte{}
 }
 
 func TestRegisterUnregister (t *testing.T) {
@@ -60,13 +60,13 @@ func TestEventBus_Publish_Success(t *testing.T) {
 	// 3. Register multiple handlers
 	for i := 0; i < numHandlers; i++ {
 		// Define the handler function
-		handler := func(e Event)string {
+		handler := func(e Event)[]byte {
 			// Simulate work or processing time
 			time.Sleep(10 * time.Millisecond)
 			
 			// Concurrently increment the counter
 			counter.Add(1)
-			 return ""
+			 return []byte{}
 		}
 		
 		// Register the handler

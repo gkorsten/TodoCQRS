@@ -6,24 +6,24 @@ import (
 )
 
 type Store interface {
-	AddItem(id string, value string)
-	Fetch(id string) (string, bool)
+	AddItem(id string, value []byte)
+	Fetch(id string) ([]byte, bool)
 }
 
 type store struct {
-	store map[string]string
+	store map[string][]byte
 	mutex sync.RWMutex
 }
 
 //Get a new KeyValue store
 func NewKVStore() *store {
 	return &store{
-		store: make(map[string]string),
+		store: make(map[string][]byte),
 	}
 }
 
 //Store the string value in the KVStore under ID
-func (s *store) AddItem(id string, value string) {
+func (s *store) AddItem(id string, value []byte) {
 	slog.Info("kvStore:Additem","id",id)
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
@@ -32,7 +32,7 @@ func (s *store) AddItem(id string, value string) {
 }
 
 //Retrieve the stored value 
-func (s *store) Fetch(id string) (string, bool) {
+func (s *store) Fetch(id string) ([]byte, bool) {
 	slog.Info("kvStore:Fetchitem","id",id)
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()

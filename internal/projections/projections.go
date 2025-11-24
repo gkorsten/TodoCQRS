@@ -26,7 +26,7 @@ func NewProjection(ebv eventbus.EventBus, storev kvstore.Store, db *DB.TodoDBSer
 	}
 }
 
-func (p *Projection) UpdateTodoProjection(e eventbus.Event) string {
+func (p *Projection) UpdateTodoProjection(e eventbus.Event) []byte {
 	slog.Info("Projection: Render TODO and store in cache")
 
 	todoitems := p.db.GetTodos()
@@ -35,22 +35,24 @@ func (p *Projection) UpdateTodoProjection(e eventbus.Event) string {
 	//Render the TMPL Page and store it in a Cache
 	err := pages.ShowTodo(todoitems).Render(context.Background(), buf)
 	if err == nil {
-		p.store.AddItem("TODOPAGE", buf.String())
+		p.store.AddItem("TODOPAGE", buf.Bytes())
 	} else {
 		slog.Info("ERROR buf2string", "error", err.Error())
 	}
 	p.eb.Publish(events.VIEW_TODO_UPDATED)
-	return buf.String()
+	return buf.Bytes()
 }
 
-func (p *Projection) FetchTodoView(clientid int) string {
+func (p *Projection) FetchTodoView(clientid int) []byte {
 	slog.Info("Projection: Fetch TODO View from store")
 	value, ok := p.store.Fetch("TODOPAGE")
 	if !ok {
 		value = p.UpdateTodoProjection(events.TODO_UPDATED)
+
 		slog.Info("Projection: Cache MISS", "Clientid", clientid)
 	} else {
 		slog.Info("Projection: Cache HIT", "Clientid", clientid)
 	}
+	
 	return value
 }

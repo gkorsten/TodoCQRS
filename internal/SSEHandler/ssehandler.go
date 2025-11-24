@@ -78,9 +78,9 @@ func (s *sseController) run() {
 }
 
 // Listen to Events from the eventbus, and send them for broadcasting.
-func (s *sseController) Listen(ev eventbus.Event) string {
+func (s *sseController) Listen(ev eventbus.Event) []byte {
 	s.broadcast <- ev
-	return ""
+	return []byte{}
 }
 
 // Handler to manage long standing SSE connections
@@ -115,7 +115,7 @@ func (s *sseController) SSEHandler(w http.ResponseWriter, r *http.Request) {
 			switch event {
 			case events.VIEW_TODO_UPDATED:
 				value := s.pres.FetchTodoView(clientID)
-				sse.PatchElements(value)
+				sse.PatchElements(string(value))
 				slog.Info("SSEHandler: Todo View sent to client", "clientid", clientID)
 
 			default:
