@@ -4,8 +4,32 @@ templ MainPage () {
 
 <html>
 <head>
-    <title>CQRS Test App - TODO</title>
+    <title>CQRS Test App - Todo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.6/bundles/datastar.js"></script>
+    <style>
+        ul {
+              padding-left: 0;
+        }
+        ul li {
+            list-style: none !important;
+          
+        }
+
+        input {
+                max-width: 50%;
+            }
+
+        @media screen and (max-width: 868px) {
+            input {
+                max-width: 100%;
+            }
+        }
+      
+    </style>
+
 </head>
 <body>
 
