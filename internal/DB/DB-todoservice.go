@@ -47,7 +47,7 @@ func (todo *TodoDBService) AddTodo (td pages.TodoItem) {
 	todo.mockDB.TODODB["TODO"] = append(todo.mockDB.TODODB["TODO"],td)
 	todo.mockDB.mut.Unlock()
 	slog.Info("todoDBService: TODO DB Updated - Added a todo")
-	todo.eventBus.Publish(e.TODO_UPDATED)
+	todo.eventBus.Publish(e.TODO_DB_UPDATED)
 }
 
 //Get all Todos from the DB
@@ -75,7 +75,7 @@ func (todo *TodoDBService) ToggleStatus(id int) {
 		}
 	}
 	
-	todo.eventBus.Publish(e.TODO_UPDATED)
+	todo.eventBus.Publish(e.TODO_DB_UPDATED)
 }
 
 //Delete item
@@ -95,7 +95,7 @@ func (todo *TodoDBService) Delete(id int) {
 		todo.mockDB.TODODB["TODO"] = append(todo.mockDB.TODODB["TODO"][:indexToDel],todo.mockDB.TODODB["TODO"][indexToDel+1:]...)
 	}
 	
-	todo.eventBus.Publish(e.TODO_UPDATED)
+	todo.eventBus.Publish(e.TODO_DB_UPDATED)
 }
 
 //Delete a range of items based on ids []int
@@ -116,7 +116,7 @@ func (todo *TodoDBService) DeleteRange(ids []int) {
 		}
 	}
 	
-	todo.eventBus.Publish(e.TODO_UPDATED)
+	todo.eventBus.Publish(e.TODO_DB_UPDATED)
 }
 
 

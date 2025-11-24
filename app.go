@@ -45,8 +45,8 @@ func main() {
 	todoHandlers:=todohandler.NewTodoHandlers(todoDBService) //Handlers for todo - can be part of DB Serivce ?
 
 	//Register events on Eventbus - probably a better idea is to have two eventbusses for each side
-	eventBus.RegisterEvent(events.TODO_UPDATED,Projection.UpdateTodoProjection) //Tell the Projection layer to update the TODO view
-	eventBus.RegisterEvent(events.VIEW_TODO_UPDATED,sse.Listen) //Tell the SSE handler to send the new view to all clients 
+	eventBus.RegisterEvent(events.TODO_DB_UPDATED,Projection.UpdateTodoProjection) //Tell the Projection layer to update the TODO view
+	eventBus.RegisterEvent(events.TODO_VIEW_UPDATED,sse.Listen) //Tell the SSE handler to send the new view to all clients 
 
     //Route Handlers
 	http.HandleFunc("POST /addTodo",todoHandlers.AddTodo)

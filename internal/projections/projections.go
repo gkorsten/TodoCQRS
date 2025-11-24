@@ -39,7 +39,7 @@ func (p *Projection) UpdateTodoProjection(e eventbus.Event) []byte {
 	} else {
 		slog.Info("ERROR buf2string", "error", err.Error())
 	}
-	p.eb.Publish(events.VIEW_TODO_UPDATED)
+	p.eb.Publish(events.TODO_VIEW_UPDATED)
 	return buf.Bytes()
 }
 
@@ -47,12 +47,10 @@ func (p *Projection) FetchTodoView(clientid int) []byte {
 	slog.Info("Projection: Fetch TODO View from store")
 	value, ok := p.store.Fetch("TODOPAGE")
 	if !ok {
-		value = p.UpdateTodoProjection(events.TODO_UPDATED)
-
+		value = p.UpdateTodoProjection(events.TODO_DB_UPDATED)
 		slog.Info("Projection: Cache MISS", "Clientid", clientid)
 	} else {
 		slog.Info("Projection: Cache HIT", "Clientid", clientid)
 	}
-	
 	return value
 }

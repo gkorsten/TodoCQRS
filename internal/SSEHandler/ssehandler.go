@@ -51,7 +51,7 @@ func (s *sseController) run() {
 			s.clients[nc] = true
 
 			select {
-			case nc <- events.VIEW_TODO_UPDATED:
+			case nc <- events.TODO_VIEW_UPDATED:
 				slog.Info("SsseController: Send the first view to the client")
 			default:
 				slog.Info("SsseController: ❌ Channel blocked, cant send first view - increase buffer size")
@@ -113,7 +113,7 @@ func (s *sseController) SSEHandler(w http.ResponseWriter, r *http.Request) {
 			slog.Info("SSEHandler: SSE event received", "clientid", clientID, "event", event)
 
 			switch event {
-			case events.VIEW_TODO_UPDATED:
+			case events.TODO_VIEW_UPDATED:
 				value := s.pres.FetchTodoView(clientID)
 				sse.PatchElements(string(value))
 				slog.Info("SSEHandler: Todo View sent to client", "clientid", clientID)
